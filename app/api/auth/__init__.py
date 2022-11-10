@@ -67,3 +67,10 @@ async def signin_with_form(form: SignInForm):
     return {
         'token': token, 'author_id': author_id
     }
+
+@router.get('/profile/{id}', status_code=status.HTTP_200_OK)
+async def profile(id: int):
+    with httpx.Client(base_url=settings.GSA_DATABASE_API) as client:
+        res = client.get(f'/authors/'+str(id))
+    author = res.json()
+    return author
